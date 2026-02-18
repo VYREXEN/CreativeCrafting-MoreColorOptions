@@ -229,5 +229,11 @@ public abstract class CreativeCraftingMixin extends HandledScreen<ScreenHandler>
             context.drawItem(cursorStack, mouseX - 8, mouseY - 8);
             context.drawStackOverlay(client.textRenderer, cursorStack, mouseX - 8, mouseY - 8);
         }
+
+        // Render tooltip for hovered slot
+        Slot hoveredSlot = getCraftingSlotAt(mouseX, mouseY);
+        if (hoveredSlot != null && !hoveredSlot.getStack().isEmpty() && cursorStack.isEmpty()) {
+            context.drawItemTooltip(client.textRenderer, hoveredSlot.getStack(), mouseX, mouseY);
+        }
     }
 }
