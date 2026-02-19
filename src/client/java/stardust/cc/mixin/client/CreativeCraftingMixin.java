@@ -19,8 +19,8 @@ import org.lwjgl.glfw.GLFW;
 
 @Mixin(CreativeInventoryScreen.class)
 public abstract class CreativeCraftingMixin extends HandledScreen<ScreenHandler> {
-    private static final int[] SLOT_X = {172, 133, 151, 133, 151};
-    private static final int[] SLOT_Y = { 20,  10,  10,  28,  28};
+    private static final int[] SLOT_X = { 172, 133, 151, 133, 151 };
+    private static final int[] SLOT_Y = {  20,  10,  10,  28,  28 };
 
     @Shadow private static ItemGroup selectedTab;
 
