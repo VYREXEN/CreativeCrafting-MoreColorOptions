@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "creativecrafting",
 	"version": "${version}",
-	"name": "Creative Crafting",
+	"name": "Creative Crafting Grid",
 	"description": "Add the survival/adventure crafting slots to the creative inventory screen. IYKYK.",
 	"authors": [
 		"Stardust"

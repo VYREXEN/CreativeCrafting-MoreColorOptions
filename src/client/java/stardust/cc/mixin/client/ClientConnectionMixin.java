@@ -15,7 +15,7 @@ public abstract class ClientConnectionMixin {
     private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
         if (packet instanceof CloseHandledScreenC2SPacket p) {
             if (CreativeCrafting.getConfig().isSticky() && p.getSyncId() == CreativeCrafting.CLIENT.player.playerScreenHandler.syncId) {
-                CreativeCrafting.LOGGER.info("Creative Crafting: canceled CloseHandledScreenC2SPacket with syncId=" + p.getSyncId());
+                CreativeCrafting.LOGGER.debug("Creative Crafting: canceled CloseHandledScreenC2SPacket with syncId=" + p.getSyncId());
                 ci.cancel();
             }
         }

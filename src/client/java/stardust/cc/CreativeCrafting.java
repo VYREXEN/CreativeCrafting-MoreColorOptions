@@ -23,12 +23,12 @@ public class CreativeCrafting implements ClientModInitializer {
     private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("creativecrafting.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     
-    private static Config config = new Config(false);
+    private static Config config = new Config(true);
 
     public static Config getConfig() {
         return config;
     }
-    
+
     private static void loadConfig() {
         try {
             if (Files.exists(PATH)) {
@@ -41,7 +41,7 @@ public class CreativeCrafting implements ClientModInitializer {
             LOGGER.error("[CreativeCrafting] Failed to load config", e);
         }
     }
-    
+
     private static void saveConfig() {
         try {
             Files.writeString(PATH, GSON.toJson(config));
@@ -50,26 +50,27 @@ public class CreativeCrafting implements ClientModInitializer {
             LOGGER.error("[CreativeCrafting] Failed to save config", e);
         }
     }
-    
+
     @Override
     public void onInitializeClient() {
+        Text enabled = Text.literal("enabled").formatted(Formatting.GREEN);
+        Text disabled = Text.literal("disabled").formatted(Formatting.RED);
+
         loadConfig();
-        
+
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("creativecrafting")
                 .then(ClientCommandManager.literal("sticky")
-                    .then(ClientCommandManager.argument("enabled", BoolArgumentType.bool())
+                    .then(ClientCommandManager.argument("state", BoolArgumentType.bool())
                         .executes(context -> {
-                            config.sticky = BoolArgumentType.getBool(context, "enabled");
-                            Text enabled = Text.literal(config.sticky ? "enabled" : "disabled").formatted(config.sticky ? Formatting.GREEN : Formatting.RED);
-                            context.getSource().sendFeedback(Text.literal("Sticky mode ").append(enabled));
+                            config.sticky = BoolArgumentType.getBool(context, "state");
+                            context.getSource().sendFeedback(Text.literal("Sticky mode ").append(config.sticky ? enabled : disabled));
                             saveConfig();
                             return 1;
                         })
                     )
                     .executes(context -> {
-                        Text enabled = Text.literal(config.sticky ? "enabled" : "disabled").formatted(config.sticky ? Formatting.GREEN : Formatting.RED);
-                        context.getSource().sendFeedback(Text.literal("Sticky mode is currently ").append(enabled));
+                        context.getSource().sendFeedback(Text.literal("Sticky mode is currently ").append(config.sticky ? enabled : disabled));
                         return 1;
                     })
                 )
