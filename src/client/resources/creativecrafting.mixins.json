@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "stardust.cc.mixin.client",
+	"package": "dev.vyrexen.creativecrafting.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"ClientConnectionMixin",
