@@ -19,10 +19,10 @@ import java.nio.file.Path;
 public class CreativeCrafting implements ClientModInitializer {
     public static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     public static final Logger LOGGER = LogUtils.getLogger();
-    
+
     private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("creativecrafting.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    
+
     private static Config config = new Config(true);
 
     public static Config getConfig() {
@@ -57,6 +57,7 @@ public class CreativeCrafting implements ClientModInitializer {
         Text disabled = Text.literal("disabled").formatted(Formatting.RED);
 
         loadConfig();
+        SlotColorConfig.load();
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("creativecrafting")
