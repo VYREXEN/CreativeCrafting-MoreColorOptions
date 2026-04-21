@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import stardust.cc.SlotColorConfig;
 
 @Mixin(CreativeInventoryScreen.class)
 public abstract class CreativeInventoryScreenMixin extends HandledScreen<ScreenHandler> {
@@ -40,21 +41,26 @@ public abstract class CreativeInventoryScreenMixin extends HandledScreen<ScreenH
         }
     }
 
-    // Draw backgrounds at moved slot positions
+    // Draw backgrounds at moved slot positions using config colors
     @Inject(method = "drawBackground", at = @At("TAIL"))
     private void onDrawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         if (!selectedTab.getType().equals(ItemGroup.Type.INVENTORY)) return;
+
+        int[] colors = SlotColorConfig.getInstance().getColors();
+        int shadow  = colors[0];
+        int hilight = colors[1];
+        int fill    = colors[2];
 
         for (int i = 0; i < 5; i++) {
             Slot slot = handler.slots.get(i);
             int sx = x + slot.x - 1;
             int sy = y + slot.y - 1;
 
-            context.fill(sx,      sy,      sx + 18, sy + 1,  0xFF373737); // top
-            context.fill(sx,      sy + 1,  sx + 1,  sy + 17, 0xFF373737); // left
-            context.fill(sx + 17, sy + 1,  sx + 18, sy + 17, 0xFFFFFFFF); // right
-            context.fill(sx,      sy + 17, sx + 18, sy + 18, 0xFFFFFFFF); // bottom
-            context.fill(sx + 1,  sy + 1,  sx + 17, sy + 17, 0xFF8B8B8B); // interior
+            context.fill(sx,      sy,      sx + 18, sy + 1,  shadow);  // top
+            context.fill(sx,      sy + 1,  sx + 1,  sy + 17, shadow);  // left
+            context.fill(sx + 17, sy + 1,  sx + 18, sy + 17, hilight); // right
+            context.fill(sx,      sy + 17, sx + 18, sy + 18, hilight); // bottom
+            context.fill(sx + 1,  sy + 1,  sx + 17, sy + 17, fill);    // interior
         }
     }
 
