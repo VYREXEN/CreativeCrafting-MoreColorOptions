@@ -76,14 +76,13 @@ public class SlotColorConfigScreen extends Screen {
         SlotColorConfig.save();
     }
 
-    // Empty override — no custom background drawn at all.
-    // Vanilla handles the panorama on title screen and in-game blur naturally.
-    @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {}
-
+    // Do NOT call super.render() — it internally triggers renderBackground which draws
+    // the black gradient overlay in 1.21.x. Instead manually render children then draw
+    // our own content on top, exactly like vanilla's TitleScreen does.
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
+        // Render all widgets manually (no background call)
+        this.drawables.forEach(d -> d.render(context, mouseX, mouseY, delta));
 
         int cx = this.width / 2;
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, cx, 15, 0xFFFFFF);
