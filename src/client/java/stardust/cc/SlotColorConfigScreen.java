@@ -78,10 +78,7 @@ public class SlotColorConfigScreen extends Screen {
 
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        // Use renderDarkening instead of the default blurred background to prevent
-        // "Can only blur once per frame" crash when this screen is opened on top of
-        // another screen that has already applied the blur this frame.
-        this.renderDarkening(context);
+        // No custom background — vanilla panorama/in-game blur is rendered by the game naturally.
     }
 
     @Override
